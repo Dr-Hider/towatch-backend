@@ -1,8 +1,9 @@
-package com.example.towatch.type;
+package com.example.towatch.type.controller;
 
 import com.example.towatch.type.dto.CreateTypeRequest;
 import com.example.towatch.type.dto.TypeResponse;
 import com.example.towatch.type.dto.UpdateTypeRequest;
+import com.example.towatch.type.service.TypeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +51,7 @@ public class TypeController {
 
     @DeleteMapping("/{id}")
     ResponseEntity<TypeResponse> deleteType(
-            @Valid @RequestBody Long id) {
+            @Valid @PathVariable Long id) {
 
         typeService.deleteTypeById(id);
 

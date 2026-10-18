@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record CreateTypeRequest(
-        @NotBlank(message = "Название типа не может быть пустым")
-        @Size(max = 8, message = "Название типа не может содержать больше 8 символов")
+        @NotBlank(message = "Type name mustn't be blank")
+        @Size(max = 8, message = "Type name length mustn't exceed 8 symbols")
         String name
 ) {
 

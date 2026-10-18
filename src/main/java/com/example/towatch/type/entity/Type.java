@@ -1,6 +1,8 @@
-package com.example.towatch.type;
+package com.example.towatch.type.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "types")
@@ -9,10 +11,12 @@ public class Type {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "type_name")
+    @NotBlank
+    @Size(max = 16)
+    @Column(name = "type_name", nullable = false, length = 16)
     private String name;
 
-    protected Type() {
+    public Type() {
 
     }
 

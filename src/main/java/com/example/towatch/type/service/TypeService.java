@@ -1,5 +1,7 @@
-package com.example.towatch.type;
+package com.example.towatch.type.service;
 
+import com.example.towatch.type.entity.Type;
+import com.example.towatch.type.repository.TypeRepository;
 import com.example.towatch.type.dto.CreateTypeRequest;
 import com.example.towatch.type.dto.TypeResponse;
 import com.example.towatch.type.dto.UpdateTypeRequest;
