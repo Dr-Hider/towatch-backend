@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     username VARCHAR(16) NOT NULL,
-    password_hash VARCHAR(32) NOT NULL,
+    password_hash VARCHAR(128) NOT NULL,
     role VARCHAR(8) NOT NULL
 );
