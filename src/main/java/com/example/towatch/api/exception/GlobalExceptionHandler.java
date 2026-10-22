@@ -9,15 +9,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ExceptionResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         StringBuilder message = new StringBuilder();
 
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             message.append(error.getDefaultMessage()).append("\n");
         });
 
-        message.deleteCharAt(message.length() - 1);
+        if (!message.isEmpty()) {
+            message.deleteCharAt(message.length() - 1);
+        }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message.toString());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(message.toString());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
     }
 }

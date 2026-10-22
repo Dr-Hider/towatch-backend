@@ -10,13 +10,13 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true, nullable = false, length = 16)
     private String username;
 
-    @Column(name = "password_hash")
+    @Column(name = "password_hash", nullable = false, length = 128)
     private String passwordHash;
 
-    @Column(name = "role")
+    @Column(name = "role", nullable = false, length = 8)
     private String role;
 
     public User() {

@@ -1,8 +1,7 @@
 package com.example.towatch.api.type.controller;
 
-import com.example.towatch.api.type.dto.CreateTypeRequest;
+import com.example.towatch.api.type.dto.TypeRequest;
 import com.example.towatch.api.type.dto.TypeResponse;
-import com.example.towatch.api.type.dto.UpdateTypeRequest;
 import com.example.towatch.api.type.service.TypeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -21,18 +20,22 @@ public class TypeController {
     }
 
     @GetMapping
-    public List<TypeResponse> getAllTypes() {
-        return typeService.getAllTypes();
+    public ResponseEntity<List<TypeResponse>> getAllTypes() {
+        List<TypeResponse> response = typeService.getAllTypes();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/{id}")
-    public TypeResponse getTypeById(@PathVariable Long id) {
-        return typeService.getTypeById(id);
+    public ResponseEntity<TypeResponse> getTypeById(@PathVariable Long id) {
+        TypeResponse response = typeService.getTypeById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping
-    ResponseEntity<TypeResponse> createType(
-            @Valid @RequestBody CreateTypeRequest request
+    public ResponseEntity<TypeResponse> createType(
+            @Valid @RequestBody TypeRequest request
     ) {
         TypeResponse response = typeService.createType(request);
 
@@ -40,9 +43,9 @@ public class TypeController {
     }
 
     @PatchMapping("/{id}")
-    ResponseEntity<TypeResponse> updateType(
+    public ResponseEntity<TypeResponse> updateType(
             @PathVariable Long id,
-            @Valid @RequestBody UpdateTypeRequest request
+            @Valid @RequestBody TypeRequest request
     ) {
         TypeResponse response = typeService.updateType(id, request);
 
@@ -50,9 +53,9 @@ public class TypeController {
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<TypeResponse> deleteType(@Valid @PathVariable Long id) {
+    public ResponseEntity.BodyBuilder deleteType(@PathVariable Long id) {
         typeService.deleteTypeById(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.OK);
     }
 }

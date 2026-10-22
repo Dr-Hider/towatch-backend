@@ -10,7 +10,7 @@ public class Type {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "type_name", nullable = false, length = 16)
+    @Column(name = "type_name", unique = true, nullable = false, length = 16)
     private String name;
 
     public Type() {

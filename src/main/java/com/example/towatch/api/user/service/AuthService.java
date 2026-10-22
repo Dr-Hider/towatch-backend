@@ -38,11 +38,7 @@ public class AuthService {
             throw new InvalidLoginOrPasswordException();
         }
 
-        return new AuthResponse(
-                user.getId(),
-                user.getUsername(),
-                jwtService.generateToken(user)
-        );
+        return new AuthResponse(jwtService.generateToken(user));
     }
 
     public AuthResponse register(AuthRequest request) {
@@ -59,7 +55,7 @@ public class AuthService {
 
         userRepository.save(user);
 
-        return new AuthResponse(user.getId(), user.getUsername(), jwtService.generateToken(user));
+        return new AuthResponse(jwtService.generateToken(user));
     }
 
     public MeResponse me(String username) {
