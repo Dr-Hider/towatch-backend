@@ -24,12 +24,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, "/api/types", "/api/types/{id}").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/types").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/api/types/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/types/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/types/{id}").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/api/statuses", "/api/statuses/{id}").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/statuses").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/api/statuses/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/statuses/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/statuses/{id}").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/register").permitAll()

@@ -42,7 +42,7 @@ public class StatusController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<StatusResponse> updateStatus(
             @PathVariable Long id,
             @Valid @RequestBody StatusRequest request

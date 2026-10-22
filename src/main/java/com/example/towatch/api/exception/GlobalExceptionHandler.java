@@ -13,15 +13,16 @@ public class GlobalExceptionHandler {
         StringBuilder message = new StringBuilder();
 
         ex.getBindingResult().getAllErrors().forEach((error) -> {
-            message.append(error.getDefaultMessage()).append("\n");
+            message.append(error.getDefaultMessage()).append("; ");
         });
 
         if (!message.isEmpty()) {
             message.deleteCharAt(message.length() - 1);
+            message.deleteCharAt(message.length() - 1);
         }
 
-        ExceptionResponse exceptionResponse = new ExceptionResponse(message.toString());
+        ExceptionResponse response = new ExceptionResponse(message.toString());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }

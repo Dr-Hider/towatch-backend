@@ -29,7 +29,7 @@ public class JwtService {
                 .subject(user.getId().toString())
                 .claim("role", user.getRole())
                 .issuedAt(now)
-                .expiresAt(now.plusSeconds(15))
+                .expiresAt(now.plusSeconds(expiration))
                 .build();
 
         JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();

@@ -41,7 +41,7 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ItemResponse> updateItem(
             @PathVariable Long id,
             @Valid @RequestBody ItemRequest request,

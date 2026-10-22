@@ -42,7 +42,7 @@ public class TypeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<TypeResponse> updateType(
             @PathVariable Long id,
             @Valid @RequestBody TypeRequest request
