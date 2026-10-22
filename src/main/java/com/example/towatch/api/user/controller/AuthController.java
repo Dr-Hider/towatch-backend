@@ -35,9 +35,9 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<MeResponse> me(Authentication authentication) {
-        String username =  authentication.getName();
+        Long id = Long.valueOf(authentication.getName());
 
-        MeResponse response = authService.me(username);
+        MeResponse response = authService.me(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

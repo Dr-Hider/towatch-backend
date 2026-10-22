@@ -18,6 +18,9 @@ public class Item {
     @Column(name = "user_id", unique = true, nullable = false)
     private Long userId;
 
+    @Column(name = "title", unique = true, nullable = false)
+    private String title;
+
     public Item () {
 
     }
@@ -38,6 +41,10 @@ public class Item {
         return userId;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     public void setTypeId(Long typeId) {
         this.typeId = typeId;
     }
@@ -48,5 +55,9 @@ public class Item {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

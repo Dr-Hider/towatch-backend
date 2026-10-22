@@ -21,9 +21,9 @@ public class StatusService {
 
     public List<StatusResponse> getAllStatuses() {
         return statusRepository.findAll()
-                .stream().map(type -> new StatusResponse(
-                        type.getId(),
-                        type.getName()
+                .stream().map(status -> new StatusResponse(
+                        status.getId(),
+                        status.getName()
                 )).toList();
     }
 

@@ -1,0 +1,2 @@
+ALTER TABLE items
+ADD CONSTRAINT uq_title UNIQUE (title);

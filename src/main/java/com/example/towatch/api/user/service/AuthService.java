@@ -58,9 +58,9 @@ public class AuthService {
         return new AuthResponse(jwtService.generateToken(user));
     }
 
-    public MeResponse me(String username) {
-        User user = userRepository.findByUsername(username).
-                orElseThrow(() -> new UserNotFoundException(username));
+    public MeResponse me(Long id) {
+        User user = userRepository.findById(id).
+                orElseThrow(() -> new UserNotFoundException(id));
 
         return new MeResponse(user.getId(), user.getUsername());
     }
