@@ -29,7 +29,7 @@ public class AuthService {
     }
 
     public AuthResponse login(AuthRequest request) {
-        String username = request.username().toLowerCase();
+        String username = request.username().toLowerCase().strip();
 
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new InvalidLoginOrPasswordException());
@@ -42,7 +42,7 @@ public class AuthService {
     }
 
     public AuthResponse register(AuthRequest request) {
-        String username = request.username().toLowerCase();
+        String username = request.username().toLowerCase().strip();
 
         if (userRepository.existsByUsername(username)) {
             throw new UsernameAlreadyExistsException();
@@ -53,9 +53,9 @@ public class AuthService {
         user.setPasswordHash(passwordEncoder.encode(request.password()));
         user.setRole("USER");
 
-        userRepository.save(user);
+        User newUser = userRepository.save(user);
 
-        return new AuthResponse(jwtService.generateToken(user));
+        return new AuthResponse(jwtService.generateToken(newUser));
     }
 
     public MeResponse me(Long id) {

@@ -36,12 +36,14 @@ public class TypeService {
 
     @Transactional
     public TypeResponse createType(TypeRequest request) {
-        if (typeRepository.existsByName(request.name())) {
-            throw new TypeAlreadyExistsException(request.name());
+        String typeName = request.name().strip();
+
+        if (typeRepository.existsByName(typeName)) {
+            throw new TypeAlreadyExistsException(typeName);
         }
 
         Type type = new Type();
-        type.setName(request.name());
+        type.setName(typeName);
 
         Type newType = typeRepository.save(type);
 
@@ -50,10 +52,11 @@ public class TypeService {
 
     @Transactional
     public TypeResponse updateType(Long id, TypeRequest request) {
+
         Type type = typeRepository.findById(id)
                 .orElseThrow(() -> new TypeNotFoundException(id));
 
-        type.setName(request.name());
+        type.setName(request.name().strip());
 
         Type updatedType = typeRepository.save(type);
 

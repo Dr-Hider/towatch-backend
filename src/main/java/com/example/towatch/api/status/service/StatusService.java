@@ -36,12 +36,14 @@ public class StatusService {
 
     @Transactional
     public StatusResponse createStatus(StatusRequest request) {
-        if (statusRepository.existsByName(request.name())) {
-            throw new StatusAlreadyExistsException(request.name());
+        String statusName = request.name().strip();
+
+        if (statusRepository.existsByName(statusName)) {
+            throw new StatusAlreadyExistsException(statusName);
         }
 
         Status status = new Status();
-        status.setName(request.name());
+        status.setName(statusName);
 
         Status newStatus = statusRepository.save(status);
 
@@ -50,10 +52,11 @@ public class StatusService {
 
     @Transactional
     public StatusResponse updateStatus(Long id, StatusRequest request) {
+
         Status status = statusRepository.findById(id)
                 .orElseThrow(() -> new StatusNotFoundException(id));
 
-        status.setName(request.name());
+        status.setName(request.name().strip());
 
         Status updatedStatus = statusRepository.save(status);
 

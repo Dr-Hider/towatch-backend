@@ -56,8 +56,10 @@ public class ItemService {
             throw new UserNotFoundException(userId);
         }
 
-        if (itemRepository.existsByTitleAndUserId(request.title(), userId)) {
-            throw new ItemAlreadyExistsException(request.title());
+        String title = request.title().strip();
+
+        if (itemRepository.existsByTitleAndUserId(title, userId)) {
+            throw new ItemAlreadyExistsException(title);
         }
 
         if (!typeRepository.existsById(request.typeId())) {
@@ -69,7 +71,7 @@ public class ItemService {
         }
 
         Item item = new Item();
-        item.setTitle(request.title());
+        item.setTitle(title);
         item.setTypeId(request.typeId());
         item.setStatusId(request.statusId());
         item.setUserId(userId);
@@ -105,7 +107,7 @@ public class ItemService {
         Item item = itemRepository.findById(id).
                 orElseThrow(() -> new ItemNotFoundException(id));
 
-        item.setTitle(request.title());
+        item.setTitle(request.title().strip());
         item.setTypeId(request.typeId());
         item.setStatusId(request.statusId());
 
