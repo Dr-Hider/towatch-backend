@@ -58,7 +58,7 @@ public class ItemService {
 
         String title = request.title().strip();
 
-        if (itemRepository.existsByTitleAndUserId(title, userId)) {
+        if (itemRepository.existsByTitleIgnoreCaseAndUserId(title, userId)) {
             throw new ItemAlreadyExistsException(title);
         }
 

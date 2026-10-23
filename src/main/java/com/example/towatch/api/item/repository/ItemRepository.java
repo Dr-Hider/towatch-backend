@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findAllByUserId(Long userId);
-    boolean existsByTitleAndUserId(String title, Long userId);
+    boolean existsByTitleIgnoreCaseAndUserId(String title, Long userId);
     boolean existsByIdAndUserId(Long id, Long userId);
 }

@@ -38,7 +38,7 @@ public class StatusService {
     public StatusResponse createStatus(StatusRequest request) {
         String statusName = request.name().strip();
 
-        if (statusRepository.existsByName(statusName)) {
+        if (statusRepository.existsByNameIgnoreCase(statusName)) {
             throw new StatusAlreadyExistsException(statusName);
         }
 
