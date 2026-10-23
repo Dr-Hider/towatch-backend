@@ -13,11 +13,10 @@ public class GlobalExceptionHandler {
         StringBuilder message = new StringBuilder();
 
         ex.getBindingResult().getAllErrors().forEach((error) -> {
-            message.append(error.getDefaultMessage()).append("; ");
+            message.append(error.getDefaultMessage()).append("|");
         });
 
         if (!message.isEmpty()) {
-            message.deleteCharAt(message.length() - 1);
             message.deleteCharAt(message.length() - 1);
         }
 
