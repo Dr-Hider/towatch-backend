@@ -1,0 +1,43 @@
+services:
+  backend:
+    build: .
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    environment:
+      DB_URL: ${DOCKER_DB_URL:?DB_URL is required}
+      DB_USERNAME: ${DB_USERNAME:?DB_USERNAME is required}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required}
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:?JWT_EXPIRATION is required}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default
+      - towatch-net
+
+  db:
+    image: postgres:18
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is required}
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+    volumes:
+      - towatch_postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+networks:
+  towatch-net:
+    name: towatch-net
+
+volumes:
+  towatch_postgres_data:

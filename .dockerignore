@@ -1,0 +1,18 @@
+# Git
+.git
+.gitattributes
+.gitignore
+
+# IDE
+.idea
+.vscode
+
+# Build output
+target
+
+# Environment and secrets
+.env
+.env.*
+
+# Other
+HELP.md
