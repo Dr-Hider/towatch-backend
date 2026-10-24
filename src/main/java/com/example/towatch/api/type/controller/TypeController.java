@@ -6,6 +6,7 @@ import com.example.towatch.api.type.service.TypeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,9 +36,12 @@ public class TypeController {
 
     @PostMapping
     public ResponseEntity<TypeResponse> createType(
-            @Valid @RequestBody TypeRequest request
+            @Valid @RequestBody TypeRequest request,
+            Authentication authentication
     ) {
-        TypeResponse response = typeService.createType(request);
+        Long userId = Long.valueOf(authentication.getName());
+
+        TypeResponse response = typeService.createType(request, userId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -45,16 +49,24 @@ public class TypeController {
     @PutMapping("/{id}")
     public ResponseEntity<TypeResponse> updateType(
             @PathVariable Long id,
-            @Valid @RequestBody TypeRequest request
+            @Valid @RequestBody TypeRequest request,
+            Authentication authentication
     ) {
-        TypeResponse response = typeService.updateType(id, request);
+        Long userId = Long.valueOf(authentication.getName());
+
+        TypeResponse response = typeService.updateType(id, request, userId);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity.BodyBuilder deleteType(@PathVariable Long id) {
-        typeService.deleteTypeById(id);
+    public ResponseEntity.BodyBuilder deleteType(
+            @PathVariable Long id,
+            Authentication authentication
+    ) {
+        Long userId = Long.valueOf(authentication.getName());
+
+        typeService.deleteTypeById(id, userId);
 
         return ResponseEntity.status(HttpStatus.OK);
     }

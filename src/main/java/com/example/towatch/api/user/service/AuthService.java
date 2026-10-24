@@ -60,7 +60,7 @@ public class AuthService {
 
     public MeResponse me(Long id) {
         User user = userRepository.findById(id).
-                orElseThrow(() -> new UserNotFoundException(id));
+                orElseThrow(() -> new UserNotFoundException());
 
         return new MeResponse(user.getId(), user.getUsername());
     }

@@ -38,7 +38,7 @@ public class ItemService {
 
     public List<ItemResponse> getAll(Long userId) {
         if (!userRepository.existsById(userId)) {
-            throw new UserNotFoundException(userId);
+            throw new UserNotFoundException();
         }
 
         return itemRepository.findAllByUserId(userId)
@@ -53,7 +53,7 @@ public class ItemService {
     @Transactional
     public ItemResponse createItem(ItemRequest request, Long userId) {
         if (!userRepository.existsById(userId)) {
-            throw new UserNotFoundException(userId);
+            throw new UserNotFoundException();
         }
 
         String title = request.title().strip();
@@ -63,11 +63,11 @@ public class ItemService {
         }
 
         if (!typeRepository.existsById(request.typeId())) {
-            throw new TypeNotFoundException(request.typeId());
+            throw new TypeNotFoundException();
         }
 
         if (!statusRepository.existsById(request.statusId())) {
-            throw new StatusNotFoundException(request.statusId());
+            throw new StatusNotFoundException();
         }
 
         Item item = new Item();
@@ -89,23 +89,23 @@ public class ItemService {
     @Transactional
     public ItemResponse updateItem(Long id, ItemRequest request, Long userId) {
         if (!userRepository.existsById(userId)) {
-            throw new UserNotFoundException(userId);
+            throw new UserNotFoundException();
         }
 
         if (!itemRepository.existsByIdAndUserId(id, userId)) {
-            throw new ItemNotFoundException(id);
+            throw new ItemNotFoundException();
         }
 
         if (!typeRepository.existsById(request.typeId())) {
-            throw new TypeNotFoundException(request.typeId());
+            throw new TypeNotFoundException();
         }
 
         if (!statusRepository.existsById(request.statusId())) {
-            throw new StatusNotFoundException(request.statusId());
+            throw new StatusNotFoundException();
         }
 
         Item item = itemRepository.findById(id).
-                orElseThrow(() -> new ItemNotFoundException(id));
+                orElseThrow(() -> new ItemNotFoundException());
 
         item.setTitle(request.title().strip());
         item.setTypeId(request.typeId());
@@ -124,11 +124,11 @@ public class ItemService {
     @Transactional
     public void deleteItem(Long id, Long userId) {
         if (!userRepository.existsById(userId)) {
-            throw new UserNotFoundException(userId);
+            throw new UserNotFoundException();
         }
 
         if (!itemRepository.existsByIdAndUserId(id, userId)) {
-            throw new ItemNotFoundException(id);
+            throw new ItemNotFoundException();
         }
 
         itemRepository.deleteById(id);

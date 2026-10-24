@@ -6,6 +6,8 @@ import com.example.towatch.api.type.dto.TypeRequest;
 import com.example.towatch.api.type.dto.TypeResponse;
 import com.example.towatch.api.type.exception.TypeAlreadyExistsException;
 import com.example.towatch.api.type.exception.TypeNotFoundException;
+import com.example.towatch.api.user.exception.UserNotFoundException;
+import com.example.towatch.api.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,14 @@ import java.util.List;
 @Service
 public class TypeService {
     private final TypeRepository typeRepository;
+    private final UserRepository userRepository;
 
-    public TypeService(TypeRepository typeRepository) {
+    public TypeService(
+            TypeRepository typeRepository,
+            UserRepository userRepository
+    ) {
         this.typeRepository = typeRepository;
+        this.userRepository = userRepository;
     }
 
     public List<TypeResponse> getAllTypes() {
@@ -29,13 +36,17 @@ public class TypeService {
 
     public TypeResponse getTypeById(Long id) {
         Type type = typeRepository.findById(id)
-                .orElseThrow(() -> new TypeNotFoundException(id));
+                .orElseThrow(() -> new TypeNotFoundException());
 
         return new TypeResponse(type.getId(), type.getName());
     }
 
     @Transactional
-    public TypeResponse createType(TypeRequest request) {
+    public TypeResponse createType(TypeRequest request, Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new UserNotFoundException();
+        }
+
         String typeName = request.name().strip();
 
         if (typeRepository.existsByName(typeName)) {
@@ -51,10 +62,13 @@ public class TypeService {
     }
 
     @Transactional
-    public TypeResponse updateType(Long id, TypeRequest request) {
+    public TypeResponse updateType(Long id, TypeRequest request, Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new UserNotFoundException();
+        }
 
         Type type = typeRepository.findById(id)
-                .orElseThrow(() -> new TypeNotFoundException(id));
+                .orElseThrow(() -> new TypeNotFoundException());
 
         type.setName(request.name().strip());
 
@@ -64,9 +78,13 @@ public class TypeService {
     }
 
     @Transactional
-    public void deleteTypeById(Long id) {
+    public void deleteTypeById(Long id, Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new UserNotFoundException();
+        }
+
         if (!typeRepository.existsById(id)) {
-            throw new TypeNotFoundException(id);
+            throw new TypeNotFoundException();
         }
 
         typeRepository.deleteById(id);
